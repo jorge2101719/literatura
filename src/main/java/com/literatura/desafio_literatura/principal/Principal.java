@@ -5,6 +5,7 @@ import com.literatura.desafio_literatura.model.Autor;
 import com.literatura.desafio_literatura.model.Datos;
 import com.literatura.desafio_literatura.model.Libro;
 
+import com.literatura.desafio_literatura.model.LibroDatos;
 import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
@@ -79,14 +80,15 @@ public class Principal {
 
 
     // Búsqueda en la web
-
-
     private void buscarLibroPorTitulo() {
         Datos datos = getDatosLibro();
+
 
         if(!datos.resultados().isEmpty()) {
             Libro libro = new Libro(datos.resultados().get(0));
             libro = libroRepository.save(libro);
+        } else {
+            System.out.println(mensaje);
         }
 
         System.out.println("Datos del libro= ");
@@ -114,16 +116,20 @@ public class Principal {
     private void buscarLibrosRegistrados() {
         List<Libro> libros = libroRepository.findAll();
 
-        if(!libros.isEmpty()) {
-            for(Libro libro : libros) {
-                System.out.println("Titulo= " + libro.getTitulo());
-                System.out.println("Autor(es)= " + libro.getAutores());
-                System.out.println("Idioma(s)= " + libro.getIdiomas());
-                System.out.println("Descargas=" + libro.getDescargas());
-            }
-        } else {
-            System.out.println(mensaje);
-        }
+        libros.stream()
+                .sorted(Comparator.comparing(Libro::getTitulo))
+                .forEach(System.out::println);
+
+//        if(!libros.isEmpty()) {
+//            for(Libro libro : libros) {
+//                System.out.println("Titulo= " + libro.getTitulo());
+//                System.out.println("Autor(es)= " + libro.getAutores());
+//                System.out.println("Idioma(s)= " + libro.getIdiomas());
+//                System.out.println("Descargas=" + libro.getDescargas());
+//            }
+//        } else {
+//            System.out.println(mensaje);
+//        }
     }
 
     private void listarAutoresRegistrados() {

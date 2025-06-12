@@ -2,6 +2,7 @@ package com.literatura.desafio_literatura.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 
 
 @Entity
@@ -14,11 +15,13 @@ public class Autor {
     private String nombre;
     private Integer nacimiento;
     private Integer fallecimiento;
+//    @Transient
+//    private List<Libro> libros;
 
     @OneToOne
     @JoinTable(
             name = "libros",
-            joinColumns = @JoinColumn(name = "autor_id"),
+            joinColumns = @JoinColumn(name = "autores_id"),
             inverseJoinColumns = @JoinColumn(name = "id")
     )
 
@@ -26,19 +29,19 @@ public class Autor {
 
     public Autor() {}
 
-    public Autor(AutorDatos autor) {
-        this.nombre = autor.nombre();
+    public Autor(AutorDatos autores) {
+        this.nombre = autores.nombre();
 
-        if(autor.nacimiento() == null) {
+        if(autores.nacimiento() == null) {
             this.nacimiento = 2000;
         } else {
-            this.nacimiento = autor.nacimiento();
+            this.nacimiento = autores.nacimiento();
         }
 
-        if(autor.fallecimiento() == null) {
+        if(autores.fallecimiento() == null) {
             this.fallecimiento = 5000;
         } else {
-            this.fallecimiento = autor.fallecimiento();
+            this.fallecimiento = autores.fallecimiento();
         }
     }
 
