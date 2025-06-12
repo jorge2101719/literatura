@@ -1,38 +1,53 @@
 package com.literatura.desafio_literatura.model;
 
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 
-import java.util.List;
 
-//@Entity
-//@Table(name = "autores")
+
+@Entity
+@Table(name = "autores")
 public class Autor {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-//    @Column(unique = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    @Column(unique = true)
     private String nombre;
     private Integer nacimiento;
     private Integer fallecimiento;
 
-//    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Libro> libros;
+    @OneToOne
+    @JoinTable(
+            name = "libros",
+            joinColumns = @JoinColumn(name = "autor_id"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
 
-    public Autor(AutorDatos autor) {
-        this.nombre = autor.nombre();
-        this.nacimiento = autor.nacimiento();
-        this.fallecimiento = autor.fallecimiento();
-    }
+    private Libro libros;
 
     public Autor() {}
 
+    public Autor(AutorDatos autor) {
+        this.nombre = autor.nombre();
 
-    public long getId() {
-        return id;
+        if(autor.nacimiento() == null) {
+            this.nacimiento = 2000;
+        } else {
+            this.nacimiento = autor.nacimiento();
+        }
+
+        if(autor.fallecimiento() == null) {
+            this.fallecimiento = 5000;
+        } else {
+            this.fallecimiento = autor.fallecimiento();
+        }
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     public Integer getNacimiento() {
@@ -49,14 +64,6 @@ public class Autor {
 
     public void setFallecimiento(Integer fallecimiento) {
         this.fallecimiento = fallecimiento;
-    }
-
-    public List<Libro> getLibros() {
-        return libros;
-    }
-
-    public void setLibros(List<Libro> libros) {
-        this.libros = libros;
     }
 
     public String getNombre() {
@@ -77,15 +84,12 @@ public class Autor {
                 '}';
     }
 
-    public void imprimirInformacion() {
-        System.out.println("Datos del Autor(es)");
-        System.out.println("Nomber= " + nombre);
-        System.out.println("Fecha de nacimiento= " + nacimiento);
-        System.out.println("Fecha de fallecimiento= " + fallecimiento);
-        System.out.println("Libros= " + libros);
-        System.out.println("");
+    public Libro getLibros() {
+        return libros;
     }
 
-
+    public void setLibros(Libro libros) {
+        this.libros = libros;
+    }
 
 }

@@ -1,47 +1,52 @@
 package com.literatura.desafio_literatura.model;
 
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 
 import java.util.List;
 
-//@Entity
-//@Table(name = "libros")
+@Entity
+@Table(name = "libros")
 public class Libro {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-//    @Column(unique = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    //@Column(unique = true)
     private String titulo;
-//    @ManyToOne
-    private List<AutorDatos> autores;
-//    @Enumerated(EnumType.STRING)
+    private Integer id_libro;
+    //@Enumerated(EnumType.STRING)
     private List<String> idiomas;
     private Integer descargas;
 
+    @OneToOne(mappedBy = "libros", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Autor autores;
+
+
+    public Libro(Libro libro) {}
+
     public Libro(LibroDatos libroDatos) {
-        this.id = Integer.valueOf(libroDatos.id());
+        this.id_libro = libroDatos.id_libro();
         this.titulo = libroDatos.titulo();
-        this.autores = libroDatos.autores();
-        this.idiomas = libroDatos.idiomas();
         this.descargas = libroDatos.descargas();
+
+        if(!libroDatos.idiomas().isEmpty()) {
+            this.idiomas = libroDatos.idiomas();
+        }
+
+        if(!libroDatos.autores().isEmpty()) {
+            for(AutorDatos autorDatos : libroDatos.autores()) {
+                this.autores = new Autor(autorDatos);
+                break;
+            }
+        }
     }
 
-    public Libro() {}
 
-    @Override
-    public String toString() {
-        return "titulo= " + titulo +
-                "autores= " + autores +
-                "idiomas= " + idiomas +
-                "descargas= " + descargas;
+    public Long getId() {
+        return Id;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Long id) {
+        Id = id;
     }
 
     public String getTitulo() {
@@ -52,12 +57,12 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public List<AutorDatos> getAutores() {
-        return autores;
+    public Integer getId_libro() {
+        return id_libro;
     }
 
-    public void setAutores(List<AutorDatos> autores) {
-        this.autores = autores;
+    public void setId_libro(Integer id_libro) {
+        this.id_libro = id_libro;
     }
 
     public List<String> getIdiomas() {
@@ -75,4 +80,23 @@ public class Libro {
     public void setDescargas(Integer descargas) {
         this.descargas = descargas;
     }
+
+    public Autor getAutores() {
+        return autores;
+    }
+
+    public void setAutores(Autor autores) {
+        this.autores = autores;
+    }
+
+    @Override
+    public String toString() {
+        return "[id_libro= " + id_libro +
+                ", titulo= " + titulo +
+                ", autor(es)= " + autores +
+                ", idioma(s)= " + idiomas +
+                ", descargas= " + descargas
+                + "]";
+    }
+
 }
