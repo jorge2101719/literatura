@@ -2,7 +2,7 @@ package com.literatura.desafio_literatura.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+//import java.util.List;
 
 
 @Entity
@@ -22,7 +22,7 @@ public class Autor {
     @JoinTable(
             name = "libros",
             joinColumns = @JoinColumn(name = "autores_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
+            inverseJoinColumns = @JoinColumn(name = "Id")
     )
 
     private Libro libros;
@@ -79,12 +79,7 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor{" +
-                "nombre='" + nombre + '\'' +
-                ", fechaNacimiento=" + nacimiento +
-                ", fechaFallecimiento=" + fallecimiento +
-                ", libros=" + libros +
-                '}';
+        return "Autor(es)= " + nombre + "Fecha de Nacimiento " + nacimiento + "Fecha de muerte " + fallecimiento;
     }
 
     public Libro getLibros() {

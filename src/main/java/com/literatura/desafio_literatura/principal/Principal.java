@@ -5,7 +5,6 @@ import com.literatura.desafio_literatura.model.Autor;
 import com.literatura.desafio_literatura.model.Datos;
 import com.literatura.desafio_literatura.model.Libro;
 
-import com.literatura.desafio_literatura.model.LibroDatos;
 import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
@@ -69,7 +68,7 @@ public class Principal {
                     listarLibrosPorIdioma();
                     break;
                 case 0:
-                    System.out.println("Cerrando la aplicación...");
+                    System.out.println("Gracias por su preferencia. Nos vemos pronto.");
                     break;
                 default:
                     System.out.println("Opción inválida");
@@ -115,21 +114,24 @@ public class Principal {
 
     private void buscarLibrosRegistrados() {
         List<Libro> libros = libroRepository.findAll();
+//
+//        System.out.println(libros);
+//
+//        libros.stream()
+//                .sorted(Comparator.comparing(Libro::getTitulo))
+//                .forEach(System.out::println);
+//
+        if(!libros.isEmpty()) {
+            for(Libro libro : libros) {
+                System.out.println("Titulo= " + libro.getTitulo());
+                System.out.println("Autor(es)= " + libro.getAutores());
+                System.out.println("Idioma(s)= " + libro.getIdiomas());
+                System.out.println("Descargas=" + libro.getDescargas());
+            }
+        } else {
+            System.out.println(mensaje);
+        }
 
-        libros.stream()
-                .sorted(Comparator.comparing(Libro::getTitulo))
-                .forEach(System.out::println);
-
-//        if(!libros.isEmpty()) {
-//            for(Libro libro : libros) {
-//                System.out.println("Titulo= " + libro.getTitulo());
-//                System.out.println("Autor(es)= " + libro.getAutores());
-//                System.out.println("Idioma(s)= " + libro.getIdiomas());
-//                System.out.println("Descargas=" + libro.getDescargas());
-//            }
-//        } else {
-//            System.out.println(mensaje);
-//        }
     }
 
     private void listarAutoresRegistrados() {

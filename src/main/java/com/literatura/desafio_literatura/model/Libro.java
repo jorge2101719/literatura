@@ -10,7 +10,7 @@ public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    //@Column(unique = true)
+    @Column(unique = true)
     private String titulo;
     private Integer id_libro;
     //@Enumerated(EnumType.STRING)
@@ -21,7 +21,7 @@ public class Libro {
     private Autor autores;
 
 
-    public Libro(Libro libro) {}
+    public Libro() {}
 
     public Libro(LibroDatos libroDatos) {
         this.id_libro = libroDatos.id_libro();
