@@ -3,20 +3,17 @@ package com.literatura.desafio_literatura.principal;
 
 import com.literatura.desafio_literatura.model.Autor;
 import com.literatura.desafio_literatura.model.Datos;
-import com.literatura.desafio_literatura.model.Idiomas;
 import com.literatura.desafio_literatura.model.Libro;
 
 import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
 import com.literatura.desafio_literatura.service.ConvierteDatos;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-//import java.util.stream.Collectors;
 
-@Service
 public class Principal {
     private Scanner teclado = new Scanner(System.in);
     private static final String URL_BASE = "https://gutendex.com/books/?search=";
@@ -92,7 +89,6 @@ public class Principal {
     private void buscarLibroPorTitulo() {
         Datos datos = getDatosLibro();
 
-
         if(!datos.resultados().isEmpty()) {
             Libro libro = new Libro(datos.resultados().get(0));
             libro = libroRepository.save(libro);
@@ -100,7 +96,8 @@ public class Principal {
             System.out.println(mensaje);
         }
 
-        System.out.println("Datos del libro= ");
+        System.out.println(raya);
+        System.out.println("Datos del libro");
         System.out.println(datos);
 //        if (libroBuscado.isPresent()) {
 //            System.out.println("Libro encontrado");
@@ -124,13 +121,7 @@ public class Principal {
 
     private void buscarLibrosRegistrados() {
         List<Libro> libros = libroRepository.findAll();
-//
-//        System.out.println(libros);
-//
-//        libros.stream()
-//                .sorted(Comparator.comparing(Libro::getTitulo))
-//                .forEach(System.out::println);
-//
+
         if(!libros.isEmpty()) {
             for(Libro libro : libros) {
                 System.out.println("Titulo= " + libro.getTitulo());
@@ -181,48 +172,57 @@ public class Principal {
     }
 
     private void listarLibrosPorIdioma() {
-        System.out.println("Ingrese el idioma....");
+        var seleccion = -1;
+        var idiomaABuscar = "en";
+        while(seleccion !=0) {
+            var menuIdioma = """
+                    Ingrese el idioma a buscar....
+                    
+                    1.- Español
+                    2.- Inglés
+                    3.- Francés
+                    0.- Salir de la búsqueda
+                    """;
 
-        var idiomaABuscar = teclado.nextLine();
+            System.out.println(menuIdioma);
+            seleccion = teclado.nextInt();
+            teclado.nextLine();
 
-        System.out.println(idiomaABuscar);
-
-        //List<Libro> libros = libroRepository.findAll();
-        List<Libro> libros = libroRepository.findForIdiomas(idiomaABuscar);
-
-        ;
-//        var menuIdiomas = """
-//                Selecciones un idioma
-//                1.- Español
-//                2.- Inglés
-//                0.- Cancelar búsqueda
-//
-//                """;
-//        System.out.println(menuIdiomas);
-//        var idioma = teclado.nextInt();
-//        teclado.nextLine();
-//
-//        String seleccion = "";
-//
-//        if(idioma == 1) {
-//            seleccion = "es";
-//        } else if(idioma == 2) {
-//            seleccion = "en";
-//        } else {
-//            seleccion = "0";
-//            return;
-//        }
-//
-        if(!libros.isEmpty()) {
-            for(Libro libro : libros) {
-                System.out.println("Título= " + libro.getTitulo());
-                System.out.println("Autor= " + libro.getAutores());
-                System.out.println("Idioma(s)= " + libro.getIdiomas());
-                System.out.println("Descargas= " + libro.getDescargas());
-                System.out.println(raya);
+            switch (seleccion) {
+                case 1:
+                    idiomaABuscar = "es";
+                    break;
+                case 2:
+                    idiomaABuscar = "en";
+                    break;
+                case 3:
+                    idiomaABuscar = "fr";
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Selección no aceptada...");
+                    break;
             }
-        } else {
-            System.out.println(mensaje);
+
+            System.out.println(idiomaABuscar);
+
+            List<Libro> libros = libroRepository.buscarPorIdioma(idiomaABuscar);
+
+            System.out.println(libros);
+
+            if (!libros.isEmpty()) {
+                for (Libro libro : libros) {
+                    System.out.println(raya);
+                    System.out.println("Título= " + libro.getTitulo());
+                    System.out.println("Autor= " + libro.getAutores());
+                    System.out.println("Idioma(s)= " + libro.getIdiomas());
+                    System.out.println("Descargas= " + libro.getDescargas());
+                    System.out.println(raya);
+                }
+            } else {
+                System.out.println(mensaje);
+            }
         }
     }
 

@@ -2,7 +2,8 @@ package com.literatura.desafio_literatura.model;
 
 public enum Idiomas {
     español("es"),
-    inglés("en");
+    inglés("en"),
+    francés("fr");
 
     private String idiomasLibro;
 

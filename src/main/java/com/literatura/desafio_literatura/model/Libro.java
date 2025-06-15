@@ -10,10 +10,14 @@ public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+
     @Column(unique = true)
     private String titulo;
+
+    @Column(name = "id_libro", unique = true)
     private Integer id_libro;
-    //@Enumerated(EnumType.STRING)
+
+    @Column(name = "idiomas")
     private List<String> idiomas;
     private Integer descargas;
 
