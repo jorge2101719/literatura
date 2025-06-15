@@ -3,6 +3,7 @@ package com.literatura.desafio_literatura.principal;
 
 import com.literatura.desafio_literatura.model.Autor;
 import com.literatura.desafio_literatura.model.Datos;
+import com.literatura.desafio_literatura.model.Idiomas;
 import com.literatura.desafio_literatura.model.Libro;
 
 import com.literatura.desafio_literatura.repository.AutorRepository;
@@ -12,6 +13,8 @@ import com.literatura.desafio_literatura.service.ConvierteDatos;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 @Service
 public class Principal {
@@ -22,6 +25,8 @@ public class Principal {
 
     private LibroRepository libroRepository;
     private AutorRepository autorRepository;
+
+    private static String raya = "--------------------------------------------";
 
     public Principal(LibroRepository libroRepository, AutorRepository autorRepository)  {
         this.libroRepository = libroRepository;
@@ -39,12 +44,14 @@ public class Principal {
         while (opcion != 0) {
             var menu = """
                     
+                    Elija una de las siguientes alternativas:
+                    
                     1.- Buscar libro por título
                     2.- Listar libros registrados
                     3.- Listar autores registrados
                     4.- Listar autores vivos en un determinado año
                     5.- Listar libros por idioma(s)
-                    
+                    6.- Buscar libro en la base de datos
                     0.- Salir
                     """;
             System.out.println(menu);
@@ -67,11 +74,14 @@ public class Principal {
                 case 5:
                     listarLibrosPorIdioma();
                     break;
+                case 6:
+                    buscarLibroEnLaBaseDeDatos();
+                    break;
                 case 0:
                     System.out.println("Gracias por su preferencia. Nos vemos pronto.");
                     break;
                 default:
-                    System.out.println("Opción inválida");
+                    System.out.println("Opción incorrecta...");
 
             }
         }
@@ -127,11 +137,11 @@ public class Principal {
                 System.out.println("Autor(es)= " + libro.getAutores());
                 System.out.println("Idioma(s)= " + libro.getIdiomas());
                 System.out.println("Descargas=" + libro.getDescargas());
+                System.out.println(raya);
             }
         } else {
             System.out.println(mensaje);
         }
-
     }
 
     private void listarAutoresRegistrados() {
@@ -143,6 +153,7 @@ public class Principal {
                 System.out.println("Fecha de Nacimiento= " + autor.getNacimiento());
                 System.out.println("Fecha de muerte= " + autor.getFallecimiento());
                 System.out.println("Libros= " + autor.getLibros().getTitulo());
+                System.out.println(raya);
             }
         } else {
             System.out.println(mensaje);
@@ -162,6 +173,7 @@ public class Principal {
                 System.out.println("Fecha de Nacimiento= " + autor.getNacimiento());
                 System.out.println("Fecha de muerte= " + autor.getFallecimiento());
                 System.out.println("Libros= " + autor.getLibros().getTitulo());
+                System.out.println(raya);
             }
         } else {
             System.out.println(mensaje);
@@ -169,34 +181,59 @@ public class Principal {
     }
 
     private void listarLibrosPorIdioma() {
-        var menuIdiomas = """
-                Selecciones un idioma
-                1.- Español
-                2.- Inglés
-                
-                """;
+        System.out.println("Ingrese el idioma....");
 
-        System.out.println(menuIdiomas);
-        var idioma = teclado.nextInt();
-        teclado.nextLine();
+        var idiomaABuscar = teclado.nextLine();
 
-        String seleccion = "";
+        System.out.println(idiomaABuscar);
 
-        if(idioma == 1) {
-            seleccion = "es";
-        } else if(idioma == 2) {
-            seleccion = "en";
-        }
+        //List<Libro> libros = libroRepository.findAll();
+        List<Libro> libros = libroRepository.findForIdiomas(idiomaABuscar);
 
-        List<Libro> libros = libroRepository.findForIdiomas(seleccion);
-
+        ;
+//        var menuIdiomas = """
+//                Selecciones un idioma
+//                1.- Español
+//                2.- Inglés
+//                0.- Cancelar búsqueda
+//
+//                """;
+//        System.out.println(menuIdiomas);
+//        var idioma = teclado.nextInt();
+//        teclado.nextLine();
+//
+//        String seleccion = "";
+//
+//        if(idioma == 1) {
+//            seleccion = "es";
+//        } else if(idioma == 2) {
+//            seleccion = "en";
+//        } else {
+//            seleccion = "0";
+//            return;
+//        }
+//
         if(!libros.isEmpty()) {
             for(Libro libro : libros) {
                 System.out.println("Título= " + libro.getTitulo());
                 System.out.println("Autor= " + libro.getAutores());
                 System.out.println("Idioma(s)= " + libro.getIdiomas());
                 System.out.println("Descargas= " + libro.getDescargas());
+                System.out.println(raya);
             }
+        } else {
+            System.out.println(mensaje);
+        }
+    }
+
+    private void  buscarLibroEnLaBaseDeDatos() {
+        System.out.println("Escriba el título del libro a buscar en la base de datos...");
+        var tituloDelLibro = teclado.nextLine();
+
+        Optional<Libro> libroBuscado = libroRepository.findByTituloContainingIgnoreCase(tituloDelLibro);
+
+        if (libroBuscado.isPresent()) {
+            System.out.println("Datos del libro: " + libroBuscado.get());
         } else {
             System.out.println(mensaje);
         }
