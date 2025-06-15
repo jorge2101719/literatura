@@ -79,7 +79,7 @@ public class Autor {
 
     @Override
     public String toString() {
-        return nombre + "Fecha de Nacimiento " + nacimiento + "Fecha de muerte " + fallecimiento;
+        return nombre + " (" + nacimiento + " --- " + fallecimiento + ")";
     }
 
     public Libro getLibros() {

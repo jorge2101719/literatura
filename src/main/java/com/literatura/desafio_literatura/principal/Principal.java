@@ -9,7 +9,7 @@ import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
 import com.literatura.desafio_literatura.service.ConvierteDatos;
-import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Component;
 //import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,7 +30,7 @@ public class Principal {
         this.autorRepository = autorRepository;
     }
 
-    private final String mensaje = "No se encontraron resultados";
+    private final String mensaje = "\n******* No se encontraron resultados *******";
 
     public Principal() {
     }
@@ -89,22 +89,16 @@ public class Principal {
     private void buscarLibroPorTitulo() {
         Datos datos = getDatosLibro();
 
-        if(!datos.resultados().isEmpty()) {
-            Libro libro = new Libro(datos.resultados().get(0));
-            libro = libroRepository.save(libro);
-        } else {
-            System.out.println(mensaje);
-        }
 
-        System.out.println(raya);
-        System.out.println("Datos del libro");
-        System.out.println(datos);
-//        if (libroBuscado.isPresent()) {
-//            System.out.println("Libro encontrado");
-//            System.out.println(libroBuscado.get());
-//        } else {
-//                System.out.println("Libro no encontrado");
-//        }
+        //System.out.println("datos mapeados... " + datos.resultados());
+
+        Libro libro = new Libro(datos.resultados().get(0));
+
+        if (libroRepository.findByTituloContainingIgnoreCase(libro.getTitulo()).isPresent()) {
+            System.out.println("\n*********** Este libro ya está en nuestra base de datos *********");
+        } else {
+            libro = libroRepository.save(libro);
+        }
     }
 
     private Datos getDatosLibro() {
@@ -123,6 +117,7 @@ public class Principal {
         List<Libro> libros = libroRepository.findAll();
 
         if(!libros.isEmpty()) {
+            System.out.println("******** Lista de libros en la base de datos **********");
             for(Libro libro : libros) {
                 System.out.println("Titulo= " + libro.getTitulo());
                 System.out.println("Autor(es)= " + libro.getAutores());
@@ -137,6 +132,8 @@ public class Principal {
 
     private void listarAutoresRegistrados() {
         List<Autor> autores = autorRepository.findAll();
+
+        System.out.println("\n****************** Lista de Autores en la base de datos ****************");
 
         if(!autores.isEmpty()) {
             for(Autor autor : autores) {
@@ -176,7 +173,7 @@ public class Principal {
         var idiomaABuscar = "en";
         while(seleccion !=0) {
             var menuIdioma = """
-                    Ingrese el idioma a buscar....
+                    ******************* Ingrese el idioma a buscar *****************
                     
                     1.- Español
                     2.- Inglés
@@ -233,7 +230,12 @@ public class Principal {
         Optional<Libro> libroBuscado = libroRepository.findByTituloContainingIgnoreCase(tituloDelLibro);
 
         if (libroBuscado.isPresent()) {
-            System.out.println("Datos del libro: " + libroBuscado.get());
+            System.out.println("\n*******************Datos del libro ******************");
+            System.out.println("Título= " + libroBuscado.get().getTitulo());
+            System.out.println("Autor(es)= " + libroBuscado.get().getAutores());
+            System.out.println("Idioma(s)= " + libroBuscado.get().getIdiomas());
+            System.out.println("Descargas= " + libroBuscado.get().getDescargas());
+
         } else {
             System.out.println(mensaje);
         }
