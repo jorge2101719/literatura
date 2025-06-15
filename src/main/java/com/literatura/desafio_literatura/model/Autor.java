@@ -2,9 +2,6 @@ package com.literatura.desafio_literatura.model;
 
 import jakarta.persistence.*;
 
-//import java.util.List;
-
-
 @Entity
 @Table(name = "autores")
 public class Autor {

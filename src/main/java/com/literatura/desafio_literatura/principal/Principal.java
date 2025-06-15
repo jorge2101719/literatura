@@ -49,6 +49,7 @@ public class Principal {
                     4.- Listar autores vivos en un determinado año
                     5.- Listar libros por idioma(s)
                     6.- Buscar libro en la base de datos
+                    7.- Buscar un autor
                     0.- Salir
                     """;
             System.out.println(menu);
@@ -73,6 +74,9 @@ public class Principal {
                     break;
                 case 6:
                     buscarLibroEnLaBaseDeDatos();
+                    break;
+                case 7:
+                    buscarAutorEnLaBaseDeDatos();
                     break;
                 case 0:
                     System.out.println("Gracias por su preferencia. Nos vemos pronto.");
@@ -179,6 +183,7 @@ public class Principal {
                     2.- Inglés
                     3.- Francés
                     0.- Salir de la búsqueda
+                    ****************************************************************
                     """;
 
             System.out.println(menuIdioma);
@@ -241,5 +246,24 @@ public class Principal {
         }
     }
 
+    private void buscarAutorEnLaBaseDeDatos() {
+        System.out.println("Escriba el nombre del autor...");
+        var nombreAutor = teclado.nextLine();
+
+        System.out.println(nombreAutor);
+
+        Optional<Autor> autorBuscado = autorRepository.findByNombreContainingIgnoreCase(nombreAutor);
+
+        if (autorBuscado.isPresent()) {
+            System.out.println("\n************ Datos del autor ***************");
+            System.out.println("Nombre= " + autorBuscado.get().getNombre());
+            System.out.println("Fecha de nacimiento= " + autorBuscado.get().getNacimiento());
+            System.out.println("Fecha de muerte= " + autorBuscado.get().getFallecimiento());
+            System.out.println("Compendio informativo " + autorBuscado.get().getLibros());
+        } else {
+            System.out.println("De momento, no tenemos a este autor en nuestro registro...");
+            System.out.println("Quizá en un futuro cercano lo tengamos...");
+        }
+    }
 }
 
