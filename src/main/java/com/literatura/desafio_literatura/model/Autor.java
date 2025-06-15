@@ -30,7 +30,7 @@ public class Autor {
         this.nombre = autores.nombre();
 
         if(autores.nacimiento() == null) {
-            this.nacimiento = 2000;
+            this.nacimiento = -1;
         } else {
             this.nacimiento = autores.nacimiento();
         }

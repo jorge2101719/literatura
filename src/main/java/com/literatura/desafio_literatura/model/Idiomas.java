@@ -17,6 +17,6 @@ public enum Idiomas {
                 return idiomas;
             }
         }
-        throw new IllegalArgumentException("Ningín idioma encontrado: " + text);
+        throw new IllegalArgumentException("Ningún idioma encontrado: " + text);
     }
 }

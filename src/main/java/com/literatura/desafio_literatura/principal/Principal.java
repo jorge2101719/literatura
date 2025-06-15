@@ -102,11 +102,13 @@ public class Principal {
             System.out.println("\n*********** Este libro ya está en nuestra base de datos *********");
         } else {
             libro = libroRepository.save(libro);
+            System.out.println("\n********* Se ha agregado un nuevo libro a nuestra base de datos *******");
+            System.out.println("Su título es= " + libro.getTitulo());
         }
     }
 
     private Datos getDatosLibro() {
-        System.out.println("Ingrese el nombre del libro que desea buscar");
+        System.out.println("\n******* Ingrese el nombre del libro que desea buscar ******");
         var tituloLibro = teclado.nextLine();
         tituloLibro = tituloLibro.replace(" ", "%20");
         System.out.println("Titulo= " + tituloLibro);
@@ -121,7 +123,7 @@ public class Principal {
         List<Libro> libros = libroRepository.findAll();
 
         if(!libros.isEmpty()) {
-            System.out.println("******** Lista de libros en la base de datos **********");
+            System.out.println("\n******** Lista de libros en la base de datos **********");
             for(Libro libro : libros) {
                 System.out.println("Titulo= " + libro.getTitulo());
                 System.out.println("Autor(es)= " + libro.getAutores());
@@ -153,7 +155,7 @@ public class Principal {
     }
 
     private void listarAutoresVivos() {
-        System.out.println("Escriba el año que desea investigar... ");
+        System.out.println("\n*********** Escriba el año que desea investigar ***********");
         var fecha = teclado.nextInt();
         teclado.nextLine();
 
@@ -235,7 +237,7 @@ public class Principal {
         Optional<Libro> libroBuscado = libroRepository.findByTituloContainingIgnoreCase(tituloDelLibro);
 
         if (libroBuscado.isPresent()) {
-            System.out.println("\n*******************Datos del libro ******************");
+            System.out.println("\n********** Datos del libro ***********");
             System.out.println("Título= " + libroBuscado.get().getTitulo());
             System.out.println("Autor(es)= " + libroBuscado.get().getAutores());
             System.out.println("Idioma(s)= " + libroBuscado.get().getIdiomas());
@@ -255,7 +257,7 @@ public class Principal {
         Optional<Autor> autorBuscado = autorRepository.findByNombreContainingIgnoreCase(nombreAutor);
 
         if (autorBuscado.isPresent()) {
-            System.out.println("\n************ Datos del autor ***************");
+            System.out.println("\n************ Datos del autor *************");
             System.out.println("Nombre= " + autorBuscado.get().getNombre());
             System.out.println("Fecha de nacimiento= " + autorBuscado.get().getNacimiento());
             System.out.println("Fecha de muerte= " + autorBuscado.get().getFallecimiento());
