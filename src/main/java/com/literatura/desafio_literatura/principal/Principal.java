@@ -79,7 +79,7 @@ public class Principal {
                     buscarAutorEnLaBaseDeDatos();
                     break;
                 case 0:
-                    System.out.println("Gracias por su preferencia. Nos vemos pronto.");
+                    System.out.println("Gracias por su preferencia. Nos vemos pronto...\n");
                     break;
                 default:
                     System.out.println("Opción incorrecta...");
@@ -117,7 +117,7 @@ public class Principal {
             System.out.println("El título buscado no está en la api...");
             return null;
         } else {
-            System.out.println("Se ha encontrado una coincidencia en la api...");
+            System.out.println("Se ha encontrado una coincidencia en la api...\n");
         }
 
         return datos;
@@ -208,9 +208,10 @@ public class Principal {
                     idiomaABuscar = "fr";
                     break;
                 case 0:
+                    System.out.println("Saliendo de la búsqueda por idiomas...\n");
                     break;
                 default:
-                    System.out.println("Selección no aceptada...");
+                    System.out.println("Selección no aceptada...\n");
                     break;
             }
 
@@ -222,12 +223,12 @@ public class Principal {
 
             if (!libros.isEmpty()) {
                 for (Libro libro : libros) {
-                    System.out.println(raya);
+                    System.out.println("\n");
                     System.out.println("Título= " + libro.getTitulo());
                     System.out.println("Autor= " + libro.getAutores());
                     System.out.println("Idioma(s)= " + libro.getIdiomas());
                     System.out.println("Descargas= " + libro.getDescargas());
-                    System.out.println(raya);
+                    System.out.println("\n");
                 }
             } else {
                 System.out.println(mensaje);

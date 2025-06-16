@@ -1,6 +1,7 @@
 package com.literatura.desafio_literatura.model;
 
 public enum Idiomas {
+    desconocido("nd"),
     español("es"),
     inglés("en"),
     francés("fr");
