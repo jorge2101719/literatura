@@ -19,5 +19,3 @@ Hasta aquí los mínimos solicitados. Además incluyo un par de alternativas má
 
 y 0. Salir
 
-
-
