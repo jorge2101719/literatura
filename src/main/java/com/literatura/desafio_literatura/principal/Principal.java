@@ -164,6 +164,8 @@ public class Principal {
 
         List<Autor> autores = autorRepository.findForYear(fecha);
 
+        System.out.println("\n***** Autores vivos en " + fecha + " *******\n");
+
         if(!autores.isEmpty()) {
             for(Autor autor : autores) {
                 System.out.println("Nombre= " + autor.getNombre());
