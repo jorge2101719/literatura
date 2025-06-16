@@ -11,6 +11,8 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    private Integer contador;
+
     @Column(unique = true)
     private String titulo;
 
@@ -44,6 +46,13 @@ public class Libro {
         }
     }
 
+    public Integer getContador() {
+        return contador;
+    }
+
+    public void setContador(Integer contador) {
+        this.contador = contador;
+    }
 
     public Long getId() {
         return Id;

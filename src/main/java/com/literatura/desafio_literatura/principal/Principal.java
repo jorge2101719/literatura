@@ -88,22 +88,20 @@ public class Principal {
         }
     }
 
-
     // Búsqueda en la web
     private void buscarLibroPorTitulo() {
         Datos datos = getDatosLibro();
 
+        if (datos != null) {
+            Libro libro = new Libro(datos.resultados().get(0));
 
-        //System.out.println("datos mapeados... " + datos.resultados());
-
-        Libro libro = new Libro(datos.resultados().get(0));
-
-        if (libroRepository.findByTituloContainingIgnoreCase(libro.getTitulo()).isPresent()) {
-            System.out.println("\n*********** Este libro ya está en nuestra base de datos *********");
-        } else {
-            libro = libroRepository.save(libro);
-            System.out.println("\n********* Se ha agregado un nuevo libro a nuestra base de datos *******");
-            System.out.println("Su título es= " + libro.getTitulo());
+            if (libroRepository.findByTituloContainingIgnoreCase(libro.getTitulo()).isPresent()) {
+                System.out.println("\n*********** Este libro ya está en nuestra base de datos *********");
+            } else {
+                libro = libroRepository.save(libro);
+                System.out.println("\n********* Se ha agregado un nuevo libro a nuestra base de datos *******");
+                System.out.println("Su título es= " + libro.getTitulo());
+            }
         }
     }
 
@@ -113,8 +111,15 @@ public class Principal {
         tituloLibro = tituloLibro.replace(" ", "%20");
         System.out.println("Titulo= " + tituloLibro);
         var json = consumoApi.obtenerDatos(URL_BASE + tituloLibro);
-        System.out.println(json);
         Datos datos = conversor.obtenerDatos(json, Datos.class);
+
+        if (datos.contador() == 0 || datos.resultados().isEmpty() || datos.resultados().get(0).titulo() == null) {
+            System.out.println("El título buscado no está en la api...");
+            return null;
+        } else {
+            System.out.println("Se ha encontrado una coincidencia en la api...");
+        }
+
         return datos;
     }
 
