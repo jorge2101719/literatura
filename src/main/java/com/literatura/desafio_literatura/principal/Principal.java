@@ -9,8 +9,6 @@ import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
 import com.literatura.desafio_literatura.service.ConvierteDatos;
-//import org.springframework.stereotype.Component;
-//import org.springframework.stereotype.Service;
 
 import java.util.*;
 
