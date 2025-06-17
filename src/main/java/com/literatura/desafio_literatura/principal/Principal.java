@@ -9,6 +9,7 @@ import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
 import com.literatura.desafio_literatura.service.ConvierteDatos;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.*;
 
@@ -48,6 +49,7 @@ public class Principal {
                     5.- Listar libros por idioma(s)
                     6.- Buscar libro en la base de datos
                     7.- Buscar un autor
+                    8.- Los más descargados
                     0.- Salir
                     """;
             System.out.println(menu);
@@ -75,6 +77,9 @@ public class Principal {
                     break;
                 case 7:
                     buscarAutorEnLaBaseDeDatos();
+                    break;
+                case 8:
+                    losCincoMasDescargados();
                     break;
                 case 0:
                     System.out.println("Gracias por su preferencia. Nos vemos pronto...\n");
@@ -271,6 +276,22 @@ public class Principal {
         } else {
             System.out.println("De momento, no tenemos a este autor en nuestro registro...");
             System.out.println("Quizá en un futuro cercano lo tengamos...");
+        }
+    }
+
+    private void losCincoMasDescargados() {
+        List<Libro> librosMasDescargados = libroRepository.findAll();
+
+        if (librosMasDescargados.get(0).getDescargas() != null && librosMasDescargados.get(0).getTitulo() != null) {
+            System.out.println("\n**** Los 5 más descargados ******");
+
+           librosMasDescargados.stream()
+                   .filter(l -> l.getTitulo() != null && l.getAutores() != null && l.getDescargas() != null)
+                   .sorted(Comparator.comparing(Libro::getDescargas).reversed())
+                   .limit(5)
+                   .forEach(l -> System.out.println("Título del libro= " + l.getTitulo() + " **** Total de descargas= " + l.getDescargas() + " **** Fue escrito por " + l.getAutores() ));
+        } else {
+            System.out.println(mensaje);
         }
     }
 }

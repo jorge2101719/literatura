@@ -16,6 +16,7 @@ Hasta aquí los mínimos solicitados. Además incluyo un par de alternativas má
 
 6. Buscar libro en la base de datos (busca el libro en el repositorio y muestra la información si lo encuentra o un mensaje alternativo)
 7. Buscar un autor (busca el autor o algún mensaje en caso de no encontrarlo)
+8. Buscar los cinco libros más descargados (el método consulta toda la base, eliminando posibles datos con null; ordena descendentemente y muestra el título, número de descarga y autor)
 
 y 0. Salir
 
