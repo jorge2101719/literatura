@@ -111,5 +111,4 @@ public class Libro {
                 ", descargas= " + descargas
                 + "]";
     }
-
 }

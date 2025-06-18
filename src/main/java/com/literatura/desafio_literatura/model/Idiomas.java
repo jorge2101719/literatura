@@ -4,7 +4,8 @@ public enum Idiomas {
     desconocido("nd"),
     español("es"),
     inglés("en"),
-    francés("fr");
+    francés("fr"),
+    italiano("it");
 
     private String idiomasLibro;
 
@@ -18,6 +19,6 @@ public enum Idiomas {
                 return idiomas;
             }
         }
-        throw new IllegalArgumentException("Ningún idioma encontrado: " + text);
+        throw new IllegalArgumentException("\nNingún idioma encontrado: " + text);
     }
 }

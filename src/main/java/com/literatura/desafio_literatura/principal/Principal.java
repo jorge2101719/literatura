@@ -40,7 +40,7 @@ public class Principal {
         while (opcion != 0) {
             var menu = """
                     
-                    Elija una de las siguientes alternativas:
+                    *** Elija una de las siguientes alternativas: ***
                     
                     1.- Buscar libro por título
                     2.- Listar libros registrados
@@ -53,40 +53,44 @@ public class Principal {
                     0.- Salir
                     """;
             System.out.println(menu);
-            opcion = teclado.nextInt();
-            teclado.nextLine();
+            try {
+                opcion = teclado.nextInt();
+                teclado.nextLine();
 
-            switch (opcion) {
-                case 1:
-                    buscarLibroPorTitulo();
-                    break;
-                case 2:
-                    buscarLibrosRegistrados();
-                    break;
-                case 3:
-                    listarAutoresRegistrados();
-                    break;
-                case 4:
-                    listarAutoresVivos();
-                    break;
-                case 5:
-                    listarLibrosPorIdioma();
-                    break;
-                case 6:
-                    buscarLibroEnLaBaseDeDatos();
-                    break;
-                case 7:
-                    buscarAutorEnLaBaseDeDatos();
-                    break;
-                case 8:
-                    losCincoMasDescargados();
-                    break;
-                case 0:
-                    System.out.println("Gracias por su preferencia. Nos vemos pronto...\n");
-                    break;
-                default:
-                    System.out.println("Opción incorrecta...");
-
+                switch (opcion) {
+                    case 1:
+                        buscarLibroPorTitulo();
+                        break;
+                    case 2:
+                        buscarLibrosRegistrados();
+                        break;
+                    case 3:
+                        listarAutoresRegistrados();
+                        break;
+                    case 4:
+                        listarAutoresVivos();
+                        break;
+                    case 5:
+                        listarLibrosPorIdioma();
+                        break;
+                    case 6:
+                        buscarLibroEnLaBaseDeDatos();
+                        break;
+                    case 7:
+                        buscarAutorEnLaBaseDeDatos();
+                        break;
+                    case 8:
+                        losCincoMasDescargados();
+                        break;
+                    case 0:
+                        System.out.println("Gracias por su preferencia. Nos vemos pronto...\n");
+                        break;
+                    default:
+                        System.out.println("Opción incorrecta...");
+                }
+            } catch(InputMismatchException e) {
+                System.out.println("Entrada inválida. Debes ingresar un número.\n");
+                teclado.nextLine();
             }
         }
     }
@@ -194,6 +198,7 @@ public class Principal {
                     1.- Español
                     2.- Inglés
                     3.- Francés
+                    4.- Italiano
                     0.- Salir de la búsqueda
                     ****************************************************************
                     """;
@@ -212,6 +217,9 @@ public class Principal {
                 case 3:
                     idiomaABuscar = "fr";
                     break;
+                case 4:
+                    idiomaABuscar = "it";
+                    break;
                 case 0:
                     System.out.println("Saliendo de la búsqueda por idiomas...\n");
                     break;
@@ -224,8 +232,6 @@ public class Principal {
 
             List<Libro> libros = libroRepository.buscarPorIdioma(idiomaABuscar);
 
-            System.out.println(libros);
-
             if (!libros.isEmpty()) {
                 for (Libro libro : libros) {
                     System.out.println("\n");
@@ -233,7 +239,6 @@ public class Principal {
                     System.out.println("Autor= " + libro.getAutores());
                     System.out.println("Idioma(s)= " + libro.getIdiomas());
                     System.out.println("Descargas= " + libro.getDescargas());
-                    System.out.println("\n");
                 }
             } else {
                 System.out.println(mensaje);
@@ -242,7 +247,7 @@ public class Principal {
     }
 
     private void  buscarLibroEnLaBaseDeDatos() {
-        System.out.println("Escriba el título del libro a buscar en la base de datos...");
+        System.out.println("\nEscriba el título del libro a buscar en la base de datos...");
         var tituloDelLibro = teclado.nextLine();
 
         Optional<Libro> libroBuscado = libroRepository.findByTituloContainingIgnoreCase(tituloDelLibro);
