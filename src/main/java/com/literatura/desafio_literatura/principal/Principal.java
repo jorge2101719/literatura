@@ -119,7 +119,7 @@ public class Principal {
         var json = consumoApi.obtenerDatos(URL_BASE + tituloLibro);
         Datos datos = conversor.obtenerDatos(json, Datos.class);
 
-        if (datos.contador() == 0 || datos.resultados().isEmpty() || datos.resultados().get(0).titulo() == null) {
+        if (datos.resultados().isEmpty() || datos.resultados().get(0).titulo() == null) {
             System.out.println("El título buscado no está en la api...");
             return null;
         } else {
