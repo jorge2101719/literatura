@@ -2,10 +2,11 @@ package com.literatura.desafio_literatura.model;
 
 public enum Idiomas {
     desconocido("nd"),
-    español("es"),
-    inglés("en"),
-    francés("fr"),
-    italiano("it");
+    espanol("es"),
+    ingles("en"),
+    frances("fr"),
+    italiano("it"),
+    ignorado("nd");
 
     private String idiomasLibro;
 

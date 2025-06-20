@@ -9,20 +9,19 @@ import com.literatura.desafio_literatura.repository.AutorRepository;
 import com.literatura.desafio_literatura.repository.LibroRepository;
 import com.literatura.desafio_literatura.service.ConsumoAPI;
 import com.literatura.desafio_literatura.service.ConvierteDatos;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.*;
 
 public class Principal {
-    private Scanner teclado = new Scanner(System.in);
+    private final Scanner teclado = new Scanner(System.in);
     private static final String URL_BASE = "https://gutendex.com/books/?search=";
-    private ConsumoAPI consumoApi = new ConsumoAPI();
-    private ConvierteDatos conversor = new ConvierteDatos();
+    private final ConsumoAPI consumoApi = new ConsumoAPI();
+    private final ConvierteDatos conversor = new ConvierteDatos();
 
     private LibroRepository libroRepository;
     private AutorRepository autorRepository;
 
-    private static String raya = "--------------------------------------------";
+    private static final String raya = "--------------------------------------------";
 
     public Principal(LibroRepository libroRepository, AutorRepository autorRepository)  {
         this.libroRepository = libroRepository;
@@ -190,45 +189,52 @@ public class Principal {
 
     private void listarLibrosPorIdioma() {
         var seleccion = -1;
-        var idiomaABuscar = "en";
+        var idiomaABuscar = "nd";
         while(seleccion !=0) {
             var menuIdioma = """
-                    ******************* Ingrese el idioma a buscar *****************
-                    
+                    **** Ingrese el idioma a buscar ****
                     1.- Español
                     2.- Inglés
                     3.- Francés
                     4.- Italiano
+                    5.- Otro
                     0.- Salir de la búsqueda
-                    ****************************************************************
+                    ************************************
                     """;
 
             System.out.println(menuIdioma);
-            seleccion = teclado.nextInt();
-            teclado.nextLine();
 
-            switch (seleccion) {
-                case 1:
-                    idiomaABuscar = "es";
-                    break;
-                case 2:
-                    idiomaABuscar = "en";
-                    break;
-                case 3:
-                    idiomaABuscar = "fr";
-                    break;
-                case 4:
-                    idiomaABuscar = "it";
-                    break;
-                case 0:
-                    System.out.println("Saliendo de la búsqueda por idiomas...\n");
-                    break;
-                default:
-                    System.out.println("Selección no aceptada...\n");
-                    break;
+            try {
+                seleccion = teclado.nextInt();
+                teclado.nextLine();
+
+                switch (seleccion) {
+                    case 1:
+                        idiomaABuscar = "es";
+                        break;
+                    case 2:
+                        idiomaABuscar = "en";
+                        break;
+                    case 3:
+                        idiomaABuscar = "fr";
+                        break;
+                    case 4:
+                        idiomaABuscar = "it";
+                        break;
+                    case 5:
+                        idiomaABuscar = "nd";
+                        break;
+                    case 0:
+                        System.out.println("Saliendo de la búsqueda por idiomas...\n");
+                        break;
+                    default:
+                        System.out.println("Selección no aceptada...\n");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Ingrese un valor\n");
+                teclado.nextLine();
             }
-
-            System.out.println(idiomaABuscar);
 
             List<Libro> libros = libroRepository.buscarPorIdioma(idiomaABuscar);
 
